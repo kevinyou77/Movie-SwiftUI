@@ -11,12 +11,13 @@ import SwiftUI
 struct NetworkImageView<Placeholder: View>: View {
 
     @ObservedObject private var loader: NetworkImage
+
     private let placeholder: Placeholder?
     private let configuration: (Image) -> Image
     
     init(
 		url: URL,
-		cache: ImageCache? = nil,
+		cache: ImageCache,
 		placeholder: Placeholder? = nil,
 		configuration: @escaping (Image) -> Image = { $0 }
 	) {

@@ -41,25 +41,18 @@ struct GameDetail: Codable {
     }
 }
 
-// MARK: - AddedByStatus
-struct AddedByStatus: Codable {
-}
-
-// MARK: - EsrbRating
-struct EsrbRating: Codable {
+struct PlatformInfo: Codable {
     var id: Int?
     var slug, name: String?
 }
 
-// MARK: - MetacriticPlatform
 struct MetacriticPlatform: Codable {
     var metascore: Int?
     var url: String?
 }
 
-// MARK: - Platform
 struct Platform: Codable {
-    var platform: EsrbRating?
+    var platform: PlatformInfo?
     var releasedAt: String?
     var requirements: Requirements?
 
@@ -70,70 +63,6 @@ struct Platform: Codable {
     }
 }
 
-// MARK: - Requirements
 struct Requirements: Codable {
     var minimum, recommended: String?
 }
-
-
-
-//struct Platform: Codable {
-//
-//	var id: Int = 0
-//	var slug: String = ""
-//	var name: String = ""
-//
-//	enum CodingKeys: String, CodingKey {
-//
-//		case name
-//		case slug
-//		case id
-//	}
-//}
-//
-//struct Platforms: Codable {
-//
-//	var platform: [String: Platform] = [String: Platform]()
-//
-//	enum CodingKeys: String, CodingKey {
-//		case platform
-//	}
-//}
-//
-//struct GameDetail: Codable, Identifiable {
-//
-//	var id: Int = Int()
-//	var cover: String = ""
-//	var description: String = ""
-//	var rank: String = ""
-//	var name: String = ""
-//	var released: String = ""
-//	var genre: String = ""
-//	var publisher: String = ""
-//	var ageRating: String = ""
-//	var website: String = ""
-//	var screenshots: [String]?
-//	var rating: Int = Int()
-//	var metacritic: Int = Int()
-//	var platforms: Platforms = Platforms()
-//	var platform: [String: Platform] = [String: Platform]()
-//
-//	enum CodingKeys: String, CodingKey {
-//		case description
-//		case name
-//		case website
-//		case released
-//		case metacritic
-//		case platforms
-//		case platform
-//	}
-//
-//	init() {}
-//
-//	init(from decoder: Decoder) throws {
-//
-//		let container = try decoder.container(keyedBy: CodingKeys.self)
-//		let platformContainer = try container.nestedContainer(keyedBy: CodingKeys.self, forKey: .platforms)
-//		self.platform = try platformContainer.decode([String: Platform].self, forKey: .platform)
-//	}
-//}

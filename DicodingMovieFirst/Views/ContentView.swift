@@ -14,9 +14,20 @@ struct ContentView: View {
 		NavigationView {
 			
 			HomeGameListView()
-				.navigationBarTitle("Games")
+				.navigationBarTitle("Games", displayMode: .automatic)
+				.navigationBarItems(trailing: AboutButton())
 		}
     }
+}
+
+extension ContentView {
+	
+	private func AboutButton() -> some View {
+		
+		NavigationLink(destination: AboutView()) {
+			Text("About")
+		}
+	}
 }
 
 struct ContentView_Previews: PreviewProvider {

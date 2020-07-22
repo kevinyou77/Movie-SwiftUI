@@ -42,4 +42,15 @@ extension GameDetailViewModel {
 			}
 		)
 	}
+	
+	func getPlatformInfo(from platforms: [Platform]?) -> String {
+		
+		guard let platforms = platforms else {
+			return "No platform announced yet."
+		}
+		
+		return platforms.reduce("", { prev, curr in
+			prev == "" ? "\(curr.platform?.name ?? "")" : "\(prev), \(curr.platform?.name ?? "")"
+		})
+	}
 }

@@ -27,6 +27,7 @@ struct GameListDescription: Codable, Identifiable {
 	var title: String = "Cyberpunk 2077"
 	var releaseDate: String = "11 November 2020"
 	var rating: Double = 0
+	var ratingsCount: Int = 0
 	
 	enum CodingKeys: String, CodingKey {
 		
@@ -35,5 +36,6 @@ struct GameListDescription: Codable, Identifiable {
 		case title = "name"
 		case rating
 		case id
+		case ratingsCount = "ratings_count"
 	}
 }

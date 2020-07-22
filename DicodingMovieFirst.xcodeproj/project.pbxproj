@@ -14,6 +14,8 @@
 		91B64C8524C3502F005F6C64 /* EnvironmentValues+ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B64C8424C3502F005F6C64 /* EnvironmentValues+ImageCache.swift */; };
 		91D50D2F24C42B2A0098F06C /* GameDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D50D2E24C42B2A0098F06C /* GameDetailViewModel.swift */; };
 		91D50D3124C45D830098F06C /* String+FilterHTML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D50D3024C45D830098F06C /* String+FilterHTML.swift */; };
+		91D50D3D24C6FF230098F06C /* Double+RoundToPlaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D50D3C24C6FF230098F06C /* Double+RoundToPlaces.swift */; };
+		91DC924024C843BE001796B8 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DC923F24C843BE001796B8 /* AboutView.swift */; };
 		91EF1C6024C1ECF200868535 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EF1C5F24C1ECF200868535 /* AppDelegate.swift */; };
 		91EF1C6224C1ECF200868535 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EF1C6124C1ECF200868535 /* SceneDelegate.swift */; };
 		91EF1C6524C1ECF200868535 /* DicodingMovieFirst.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 91EF1C6324C1ECF200868535 /* DicodingMovieFirst.xcdatamodeld */; };
@@ -38,6 +40,8 @@
 		91B64C8424C3502F005F6C64 /* EnvironmentValues+ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+ImageCache.swift"; sourceTree = "<group>"; };
 		91D50D2E24C42B2A0098F06C /* GameDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailViewModel.swift; sourceTree = "<group>"; };
 		91D50D3024C45D830098F06C /* String+FilterHTML.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+FilterHTML.swift"; sourceTree = "<group>"; };
+		91D50D3C24C6FF230098F06C /* Double+RoundToPlaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+RoundToPlaces.swift"; sourceTree = "<group>"; };
+		91DC923F24C843BE001796B8 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		91EF1C5C24C1ECF200868535 /* DicodingMovieFirst.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DicodingMovieFirst.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91EF1C5F24C1ECF200868535 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		91EF1C6124C1ECF200868535 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +77,7 @@
 				9152C8BD24C30FEE008AFE1B /* URLComponents+QueryItems.swift */,
 				91B64C8424C3502F005F6C64 /* EnvironmentValues+ImageCache.swift */,
 				91D50D3024C45D830098F06C /* String+FilterHTML.swift */,
+				91D50D3C24C6FF230098F06C /* Double+RoundToPlaces.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -145,6 +150,7 @@
 				91EF1C6624C1ECF200868535 /* ContentView.swift */,
 				91EF1C7724C1F3C000868535 /* HomeGameListView.swift */,
 				91EF1C8824C203BC00868535 /* GameDetail.swift */,
+				91DC923F24C843BE001796B8 /* AboutView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -247,10 +253,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91D50D3D24C6FF230098F06C /* Double+RoundToPlaces.swift in Sources */,
 				91EF1C8724C202F100868535 /* GameListDetail.swift in Sources */,
 				9152C8C824C34A49008AFE1B /* NetworkImageView.swift in Sources */,
 				9152C8BE24C30FEE008AFE1B /* URLComponents+QueryItems.swift in Sources */,
 				91EF1C6024C1ECF200868535 /* AppDelegate.swift in Sources */,
+				91DC924024C843BE001796B8 /* AboutView.swift in Sources */,
 				91D50D2F24C42B2A0098F06C /* GameDetailViewModel.swift in Sources */,
 				91D50D3124C45D830098F06C /* String+FilterHTML.swift in Sources */,
 				91B64C8524C3502F005F6C64 /* EnvironmentValues+ImageCache.swift in Sources */,

@@ -35,7 +35,6 @@ struct GameDetailView: View {
 		
 		ScrollView(.vertical) {
 			
-			ScreenshotHorizontalScrollView(screenshots: [String]())
 			GameInformation()
 			GameDescription()
 		}
@@ -50,41 +49,35 @@ extension GameDetailView {
 	private func GameDescription() -> some View {
 		
 		let description = viewModel.gameDetail.gameDetailDescription ?? ""
-		return Text(description).padding(20)
+		return Text(description)
+			.padding(
+				EdgeInsets(top: 20, leading: 20, bottom: 10, trailing: 20)
+			)
 	}
 	
 	private func GameInformation() -> some View {
 		
-		VStack(alignment: .leading) {
+		let platformInfo = viewModel.getPlatformInfo(from: viewModel.gameDetail.platforms)
+		
+		return VStack(alignment: .leading) {
 			
 			Text(viewModel.gameDetail.name ?? "")
 				.font(.largeTitle)
 				.fontWeight(.bold)
 			
 			VStack(alignment: .leading) {
+				Text("\(platformInfo)")
+					.fontWeight(.bold)
 				Text("Released \(viewModel.gameDetail.released ?? "")")
-				Text("\(viewModel.gameDetail.metacritic ?? 0)")
-				Text("PC, XBOX ONE, PS4")
+					.font(.subheadline)
+				Text("Metacritic: \(viewModel.gameDetail.metacritic ?? 0)/100")
+					.font(.subheadline)
 			}
 		}
-		.padding(20)
+		.padding(
+			EdgeInsets(top: 30, leading: 20, bottom: 10, trailing: 20)
+		)
 		.frame(maxWidth: .infinity, alignment: .leading)
-	}
-	
-	private func ScreenshotHorizontalScrollView(screenshots: [String]) -> some View {
-		
-		ScrollView(.horizontal) {
-			
-			HStack(alignment: .bottom, spacing: 5) {
-				ForEach(0..<10) {
-					Text("Item \($0)")
-						.foregroundColor(.white)
-						.font(.largeTitle)
-						.frame(width: 200, height: 200)
-						.background(Color.red)
-				}
-			}
-		}
 	}
 }
 
