@@ -18,6 +18,7 @@ private struct FavoriteGameTableColumns {
 	let rank = Expression<String?>("rank")
 	let releaseDate = Expression<String?>("releaseDate")
 	let cover = Expression<String?>("cover")
+	let favorited = Expression<Bool?>("favorited")
 }
 
 final class FavoriteGameStorageModel {
@@ -30,6 +31,10 @@ final class FavoriteGameStorageModel {
 	
 	private let favoriteGameTableName: String = "favorite_game"
 	private let favoriteGameTableColumns: FavoriteGameTableColumns = FavoriteGameTableColumns()
+	
+	private init() {
+		try? prepare()
+	}
 	
 	func prepare() throws {
 		
@@ -52,9 +57,16 @@ final class FavoriteGameStorageModel {
 		
 		favoriteGameTable = Table(favoriteGameTableName)
 		
-		let createTableQuery = favoriteGameTable?.create { (builder: TableBuilder) in
+		let createTableQuery = favoriteGameTable?.create(ifNotExists: true) { (builder: TableBuilder) in
 			
 			builder.column(favoriteGameTableColumns.gameId)
+			builder.column(favoriteGameTableColumns.cover)
+			builder.column(favoriteGameTableColumns.rank)
+			builder.column(favoriteGameTableColumns.rating)
+			builder.column(favoriteGameTableColumns.ratingsCount)
+			builder.column(favoriteGameTableColumns.releaseDate)
+			builder.column(favoriteGameTableColumns.title)
+			builder.column(favoriteGameTableColumns.favorited)
 		}
 		
 		guard let query = createTableQuery else {
@@ -110,6 +122,7 @@ final class FavoriteGameStorageModel {
 				description.rating = try row.get(self.favoriteGameTableColumns.rating) ?? 0.0
 				description.rank = try row.get(self.favoriteGameTableColumns.rank) ?? ""
 				description.releaseDate = try row.get(self.favoriteGameTableColumns.releaseDate) ?? ""
+				description.favorited = try row.get(self.favoriteGameTableColumns.favorited) ?? false
 				
 				return description
 			} catch {
@@ -135,7 +148,8 @@ final class FavoriteGameStorageModel {
 				favoriteGameTableColumns.rating <- item.rating,
 				favoriteGameTableColumns.ratingsCount <- item.ratingsCount,
 				favoriteGameTableColumns.title <- item.title,
-				favoriteGameTableColumns.releaseDate <- item.releaseDate
+				favoriteGameTableColumns.releaseDate <- item.releaseDate,
+				favoriteGameTableColumns.favorited <- item.favorited
 			)
 
 			try connection.run(query)

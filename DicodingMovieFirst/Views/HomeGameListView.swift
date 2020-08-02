@@ -38,16 +38,17 @@ extension HomeGameListView {
 			self.searchText.isEmpty ? true : game.title.lowercased().contains(self.searchText)
 		}
 		
-		return List(filteredGameList) {
-			self.GameDescription(game: $0)
+		let filteredGameListWithIndex = filteredGameList.enumerated().map { $0 }
+		return List(filteredGameListWithIndex, id: \.element.id) { (index, game) in
+			self.GameDescription(index: index, game: game)
 		}
 		.padding(.horizontal, -20)
 	}
 	
-	private func GameDescription(game: GameListDescription) -> some View {
+	private func GameDescription(index: Int, game: GameListDescription) -> some View {
 		
 		Group {
-			GameDescriptionView(game: game)
+			GameDescriptionView(index: index, game: game)
 			NavigationLink(destination: GameDetailView(gameId: game.id, gameTitle: game.title)) {
 				
 				EmptyView()
@@ -57,7 +58,7 @@ extension HomeGameListView {
 		}
 	}
 	
-	private func GameDescriptionView(game: GameListDescription) -> some View {
+	private func GameDescriptionView(index: Int, game: GameListDescription) -> some View {
 		
 		let roundedGameRating = game.rating.roundValueToString(toPlaces: "%.2f")
 		return VStack(alignment: .leading) {
@@ -80,17 +81,32 @@ extension HomeGameListView {
 				
 				Spacer()
 
-				Button(action: {
-					self.viewModel.insertFavoriteToDatabase(with: game)
-				}) {
-					Image(systemName: "star.fill")
-						.foregroundColor(.yellow)
-					Text("Favorite")
-						.fontWeight(.semibold)
-						.font(.subheadline)
-				}
+				Button(
+					action: onSaveToDatabase(index: index, with: game),
+					label: {
+						Image(systemName: "star.fill")
+							.foregroundColor(game.favorited ? .yellow : .black)
+						Text("Favorite")
+							.fontWeight(.semibold)
+							.font(.subheadline)
+					}
+				)
+				.buttonStyle(PlainButtonStyle())
 			}
 			.padding(15)
+		}
+	}
+	
+	private func onSaveToDatabase(index: Int, with game: GameListDescription) -> (() -> Void) {
+		
+		return {
+
+			let insertSuccess = self.viewModel.insertFavoriteToDatabase(with: game)
+			
+			if insertSuccess {
+				let favorited = self.viewModel.games[index].favorited
+				self.viewModel.games[index].favorited = !favorited
+			}
 		}
 	}
 	
