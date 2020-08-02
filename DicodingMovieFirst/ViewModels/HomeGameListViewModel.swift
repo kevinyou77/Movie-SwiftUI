@@ -13,14 +13,23 @@ class HomeGameListViewModel: ObservableObject {
 	@Published var games: [GameListDescription] = []
 	var cancellable: AnyCancellable?
 	
-	init() {
-		getMovies()
+	private let storageModel: FavoriteGameStorageModel
+	
+	init(storageModel: FavoriteGameStorageModel = FavoriteGameStorageModel.shared) {
+		
+		self.storageModel = storageModel
+		
+		getGames()
 	}
 }
 
 extension HomeGameListViewModel {
 	
-	func getMovies() {
+	func insertFavoriteToDatabase(with gameData: GameListDescription) -> Bool {
+		storageModel.insertFavoriteGame(item: gameData)
+	}
+	
+	func getGames() {
 		
 		let queryParams: [String: String] = [
 			"page_size": "10"

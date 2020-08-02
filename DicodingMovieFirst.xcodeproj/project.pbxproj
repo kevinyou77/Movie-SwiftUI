@@ -3,10 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		91043A7524D13261002EE1A5 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 91043A7424D13260002EE1A5 /* SQLite */; };
+		91043A7824D1344D002EE1A5 /* FavoriteGameStorageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91043A7724D1344D002EE1A5 /* FavoriteGameStorageModel.swift */; };
+		91043A7A24D152F5002EE1A5 /* FavoriteGamesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91043A7924D152F5002EE1A5 /* FavoriteGamesView.swift */; };
+		91043A7C24D15B50002EE1A5 /* FavoriteGameListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91043A7B24D15B50002EE1A5 /* FavoriteGameListViewModel.swift */; };
 		9152C8BE24C30FEE008AFE1B /* URLComponents+QueryItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9152C8BD24C30FEE008AFE1B /* URLComponents+QueryItems.swift */; };
 		9152C8C324C33D21008AFE1B /* NetworkImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9152C8C224C33D21008AFE1B /* NetworkImage.swift */; };
 		9152C8C524C344F7008AFE1B /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9152C8C424C344F7008AFE1B /* ImageCache.swift */; };
@@ -33,6 +37,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		91043A7724D1344D002EE1A5 /* FavoriteGameStorageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGameStorageModel.swift; sourceTree = "<group>"; };
+		91043A7924D152F5002EE1A5 /* FavoriteGamesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGamesView.swift; sourceTree = "<group>"; };
+		91043A7B24D15B50002EE1A5 /* FavoriteGameListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGameListViewModel.swift; sourceTree = "<group>"; };
 		9152C8BD24C30FEE008AFE1B /* URLComponents+QueryItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLComponents+QueryItems.swift"; sourceTree = "<group>"; };
 		9152C8C224C33D21008AFE1B /* NetworkImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkImage.swift; sourceTree = "<group>"; };
 		9152C8C424C344F7008AFE1B /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
@@ -65,12 +72,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91043A7524D13261002EE1A5 /* SQLite in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		91043A7624D1343D002EE1A5 /* SQLite */ = {
+			isa = PBXGroup;
+			children = (
+				91043A7724D1344D002EE1A5 /* FavoriteGameStorageModel.swift */,
+			);
+			path = SQLite;
+			sourceTree = "<group>";
+		};
 		9152C8BC24C30FDA008AFE1B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +134,7 @@
 		91EF1C5E24C1ECF200868535 /* DicodingMovieFirst */ = {
 			isa = PBXGroup;
 			children = (
+				91043A7624D1343D002EE1A5 /* SQLite */,
 				9152C8C124C33D15008AFE1B /* Helper */,
 				9152C8BC24C30FDA008AFE1B /* Extensions */,
 				91EF1C7924C1F3D800868535 /* Models */,
@@ -151,6 +168,7 @@
 				91EF1C7724C1F3C000868535 /* HomeGameListView.swift */,
 				91EF1C8824C203BC00868535 /* GameDetail.swift */,
 				91DC923F24C843BE001796B8 /* AboutView.swift */,
+				91043A7924D152F5002EE1A5 /* FavoriteGamesView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -178,6 +196,7 @@
 			children = (
 				91EF1C8024C1F9D100868535 /* HomeGameListViewModel.swift */,
 				91D50D2E24C42B2A0098F06C /* GameDetailViewModel.swift */,
+				91043A7B24D15B50002EE1A5 /* FavoriteGameListViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -192,12 +211,16 @@
 				91EF1C5824C1ECF200868535 /* Sources */,
 				91EF1C5924C1ECF200868535 /* Frameworks */,
 				91EF1C5A24C1ECF200868535 /* Resources */,
+				917EDB1924D69E28001A9C66 /* SwiftLint Config */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = DicodingMovieFirst;
+			packageProductDependencies = (
+				91043A7424D13260002EE1A5 /* SQLite */,
+			);
 			productName = DicodingMovieFirst;
 			productReference = 91EF1C5C24C1ECF200868535 /* DicodingMovieFirst.app */;
 			productType = "com.apple.product-type.application";
@@ -226,6 +249,9 @@
 				Base,
 			);
 			mainGroup = 91EF1C5324C1ECF200868535;
+			packageReferences = (
+				91043A7324D13260002EE1A5 /* XCRemoteSwiftPackageReference "SQLite" */,
+			);
 			productRefGroup = 91EF1C5D24C1ECF200868535 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -248,19 +274,43 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		917EDB1924D69E28001A9C66 /* SwiftLint Config */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint Config";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		91EF1C5824C1ECF200868535 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				91D50D3D24C6FF230098F06C /* Double+RoundToPlaces.swift in Sources */,
+				91043A7C24D15B50002EE1A5 /* FavoriteGameListViewModel.swift in Sources */,
 				91EF1C8724C202F100868535 /* GameListDetail.swift in Sources */,
 				9152C8C824C34A49008AFE1B /* NetworkImageView.swift in Sources */,
 				9152C8BE24C30FEE008AFE1B /* URLComponents+QueryItems.swift in Sources */,
+				91043A7A24D152F5002EE1A5 /* FavoriteGamesView.swift in Sources */,
 				91EF1C6024C1ECF200868535 /* AppDelegate.swift in Sources */,
 				91DC924024C843BE001796B8 /* AboutView.swift in Sources */,
 				91D50D2F24C42B2A0098F06C /* GameDetailViewModel.swift in Sources */,
 				91D50D3124C45D830098F06C /* String+FilterHTML.swift in Sources */,
+				91043A7824D1344D002EE1A5 /* FavoriteGameStorageModel.swift in Sources */,
 				91B64C8524C3502F005F6C64 /* EnvironmentValues+ImageCache.swift in Sources */,
 				91EF1C8924C203BC00868535 /* GameDetail.swift in Sources */,
 				91EF1C6524C1ECF200868535 /* DicodingMovieFirst.xcdatamodeld in Sources */,
@@ -466,6 +516,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		91043A7324D13260002EE1A5 /* XCRemoteSwiftPackageReference "SQLite" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.12.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		91043A7424D13260002EE1A5 /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 91043A7324D13260002EE1A5 /* XCRemoteSwiftPackageReference "SQLite" */;
+			productName = SQLite;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		91EF1C6324C1ECF200868535 /* DicodingMovieFirst.xcdatamodeld */ = {

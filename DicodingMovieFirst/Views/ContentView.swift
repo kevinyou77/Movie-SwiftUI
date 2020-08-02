@@ -11,11 +11,28 @@ import SwiftUI
 struct ContentView: View {
 
     var body: some View {
-		NavigationView {
+		
+		TabView {
+			NavigationView {
+				
+				HomeGameListView()
+					.navigationBarTitle("Games", displayMode: .automatic)
+					.navigationBarItems(trailing: AboutButton())
+			}
+			.tabItem {
+			   Image(systemName: "list.dash")
+			   Text("Menu")
+			}
 			
-			HomeGameListView()
-				.navigationBarTitle("Games", displayMode: .automatic)
-				.navigationBarItems(trailing: AboutButton())
+			NavigationView {
+				
+				FavoriteGamesView()
+					.navigationBarTitle("Favorites", displayMode: .automatic)
+			}
+			.tabItem {
+			   Image(systemName: "list.dash")
+			   Text("Menu")
+			}
 		}
     }
 }

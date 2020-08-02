@@ -64,20 +64,33 @@ extension HomeGameListView {
 			
 			GameImageView(named: game.cover)
 			
-			VStack(alignment: .leading) {
+			HStack(spacing: 5) {
+				VStack(alignment: .leading) {
+					Text(game.title)
+						.fontWeight(.bold)
+						.font(.system(size: 22))
+					
+					Text("\(roundedGameRating) from \(game.ratingsCount) ratings")
+						.fontWeight(.semibold)
+						.font(.subheadline)
+					
+					Text("Released \(game.releaseDate)")
+						.font(.caption)
+				}
 				
-				Text(game.title)
-					.fontWeight(.bold)
-					.font(.system(size: 22))
-				
-				Text("\(roundedGameRating) from \(game.ratingsCount) ratings")
-					.fontWeight(.semibold)
-					.font(.subheadline)
-				
-				Text("Released \(game.releaseDate)")
-					.font(.caption)
+				Spacer()
+
+				Button(action: {
+					self.viewModel.insertFavoriteToDatabase(with: game)
+				}) {
+					Image(systemName: "star.fill")
+						.foregroundColor(.yellow)
+					Text("Favorite")
+						.fontWeight(.semibold)
+						.font(.subheadline)
+				}
 			}
-			.padding(7)
+			.padding(15)
 		}
 	}
 	

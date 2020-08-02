@@ -28,6 +28,7 @@ struct GameListDescription: Codable, Identifiable {
 	var releaseDate: String = "11 November 2020"
 	var rating: Double = 0
 	var ratingsCount: Int = 0
+	var favorited: Bool = false
 	
 	enum CodingKeys: String, CodingKey {
 		
