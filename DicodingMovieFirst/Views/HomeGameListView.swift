@@ -82,7 +82,7 @@ extension HomeGameListView {
 				Spacer()
 
 				Button(
-					action: onSaveToDatabase(index: index, with: game),
+                    action: viewModel.onSaveToDatabase(index: index, with: game),
 					label: {
 						Image(systemName: "star.fill")
 							.foregroundColor(game.favorited ? .yellow : .black)
@@ -94,19 +94,6 @@ extension HomeGameListView {
 				.buttonStyle(PlainButtonStyle())
 			}
 			.padding(15)
-		}
-	}
-	
-	private func onSaveToDatabase(index: Int, with game: GameListDescription) -> (() -> Void) {
-		
-		return {
-
-			let insertSuccess = self.viewModel.insertFavoriteToDatabase(with: game)
-			
-			if insertSuccess {
-				let favorited = self.viewModel.games[index].favorited
-				self.viewModel.games[index].favorited = !favorited
-			}
 		}
 	}
 	

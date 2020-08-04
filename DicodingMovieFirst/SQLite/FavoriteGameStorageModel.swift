@@ -11,7 +11,7 @@ import SQLite
 
 private struct FavoriteGameTableColumns {
 	
-	let gameId = Expression<String?>("gameId")
+	let id = Expression<Int?>("gameId")
 	let title = Expression<String?>("title")
 	let ratingsCount = Expression<Int?>("ratingsCount")
 	let rating = Expression<Double?>("rating")
@@ -59,7 +59,7 @@ final class FavoriteGameStorageModel {
 		
 		let createTableQuery = favoriteGameTable?.create(ifNotExists: true) { (builder: TableBuilder) in
 			
-			builder.column(favoriteGameTableColumns.gameId)
+			builder.column(favoriteGameTableColumns.id)
 			builder.column(favoriteGameTableColumns.cover)
 			builder.column(favoriteGameTableColumns.rank)
 			builder.column(favoriteGameTableColumns.rating)
@@ -116,7 +116,8 @@ final class FavoriteGameStorageModel {
 			do {
 				
 				var description = GameListDescription()
-				description.gameId = try row.get(self.favoriteGameTableColumns.gameId) ?? ""
+                description.title = try row.get(self.favoriteGameTableColumns.title) ?? ""
+                description.id = try row.get(self.favoriteGameTableColumns.id) ?? 0
 				description.cover = try row.get(self.favoriteGameTableColumns.cover) ?? ""
 				description.ratingsCount = try row.get(self.favoriteGameTableColumns.ratingsCount) ?? 0
 				description.rating = try row.get(self.favoriteGameTableColumns.rating) ?? 0.0
@@ -130,6 +131,33 @@ final class FavoriteGameStorageModel {
 			}
 		}
 	}
+    
+    func deleteFavoriteGame(by id: Int) -> Bool {
+        
+        do {
+            
+            return try _deleteFavoriteGame(by: id)
+        } catch {
+            
+            print("Error deleting favorite game \(error)")
+            return false
+        }
+    }
+    
+    private func _deleteFavoriteGame(by id: Int) throws -> Bool {
+        
+        guard
+            let connection = connection,
+            let table = favoriteGameTable else {
+
+                return false
+        }
+        
+        let gameToDelete = table.filter(self.favoriteGameTableColumns.id == id)
+        try connection.run(gameToDelete.delete())
+        
+        return true
+    }
 	
 	private func _insertFavoriteGame(item: GameListDescription) throws -> Bool {
 
@@ -143,13 +171,13 @@ final class FavoriteGameStorageModel {
 			
 			let query = table.insert(
 				favoriteGameTableColumns.cover <- item.cover,
-				favoriteGameTableColumns.gameId <- item.gameId,
+				favoriteGameTableColumns.id <- item.id,
 				favoriteGameTableColumns.rank <- item.rank,
 				favoriteGameTableColumns.rating <- item.rating,
 				favoriteGameTableColumns.ratingsCount <- item.ratingsCount,
 				favoriteGameTableColumns.title <- item.title,
 				favoriteGameTableColumns.releaseDate <- item.releaseDate,
-				favoriteGameTableColumns.favorited <- item.favorited
+				favoriteGameTableColumns.favorited <- !item.favorited
 			)
 
 			try connection.run(query)
@@ -159,6 +187,47 @@ final class FavoriteGameStorageModel {
 			
 			return false
 		}
-		
 	}
+    
+    func getFavoriteGameIds() -> [Int] {
+        
+        do {
+            
+            return try _getFavoriteGameIds()
+        } catch {
+            
+            return []
+        }
+    }
+    
+    private func _getFavoriteGameIds() throws -> [Int] {
+        
+        guard
+            let connection = connection,
+            let table = favoriteGameTable else {
+
+                return []
+        }
+        
+        let favoritedQuery = table.filter(self.favoriteGameTableColumns.favorited)
+        let rows = try connection.prepare(favoritedQuery)
+        
+        return try rows.map { (row) -> Int in
+            
+            do {
+                
+                guard
+                    let isFavorited = try row.get(self.favoriteGameTableColumns.favorited),
+                    isFavorited,
+                    let gameId = try row.get(self.favoriteGameTableColumns.id) else {
+                        return 0
+                }
+                
+                return gameId
+            } catch {
+                
+                throw NSError(domain: "sqlite", code: 101, userInfo: nil)
+            }
+        }
+    }
 }

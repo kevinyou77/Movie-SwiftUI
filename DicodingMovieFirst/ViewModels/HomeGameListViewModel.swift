@@ -25,17 +25,16 @@ class HomeGameListViewModel: ObservableObject {
 
 extension HomeGameListViewModel {
 	
-	func insertFavoriteToDatabase(with gameData: GameListDescription) -> Bool {
-		storageModel.insertFavoriteGame(item: gameData)
-	}
-	
 	func getGames() {
 		
 		let queryParams: [String: String] = [
 			"page_size": "10"
 		]
 		
-		let request: AnyPublisher<GameListResponse, Error> = RawgAPI.request(.games, queryParams: queryParams)
+		let request: AnyPublisher<GameListResponse, Error> = RawgAPI.request(
+            .games,
+            queryParams: queryParams
+        )
 		cancellable = request.mapError { (error) -> Error in
 			print(error)
 			return error
@@ -43,8 +42,68 @@ extension HomeGameListViewModel {
 		.sink(
 			receiveCompletion: { _ in },
 			receiveValue: {
-				self.games = $0.gameLists
+                
+                self.games = self.assignFavoritedGames(gameList: $0.gameLists)
 			}
 		)
 	}
+    
+    func assignFavoritedGames(gameList: [GameListDescription]) -> [GameListDescription] {
+        
+        let favoriteGameIds = getFavoriteGameIdsFromCache()
+        return gameList.map { game -> GameListDescription in
+            
+            guard
+                favoriteGameIds.contains(game.id) else {
+                    return game
+            }
+            
+            var gameCopy = game
+            gameCopy.favorited = true
+            return gameCopy
+        }
+    }
+    
+    func onSaveToDatabase(index: Int, with game: GameListDescription) -> (() -> Void) {
+        
+        return {
+
+            if game.favorited {
+                self.removeFromDatabase(index: index, by: game.id)
+                return
+            }
+            
+            self.insertToDatabase(index: index, with: game)
+        }
+    }
+    
+    func insertToDatabase(index: Int, with game: GameListDescription) {
+        
+        let insertSuccess = self.insertFavoriteToDatabase(with: game)
+        
+        if insertSuccess {
+            self.games[index].favorited = true
+        }
+    }
+    
+    func removeFromDatabase(index: Int, by id: Int) {
+            
+        let deleteSuccess = self.removeFavoriteFromDatabase(by: id)
+        
+        if deleteSuccess {
+            self.games[index].favorited = false
+        }
+    }
+    
+    func removeFavoriteFromDatabase(by id: Int) -> Bool {
+        storageModel.deleteFavoriteGame(by: id)
+    }
+    
+    func getFavoriteGameIdsFromCache() -> [Int] {
+        storageModel.getFavoriteGameIds()
+    }
+    
+    func insertFavoriteToDatabase(with gameData: GameListDescription) -> Bool {
+        storageModel.insertFavoriteGame(item: gameData)
+    }
 }

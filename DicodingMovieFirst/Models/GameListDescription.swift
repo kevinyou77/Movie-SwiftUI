@@ -22,10 +22,10 @@ struct GameListDescription: Codable, Identifiable {
 
 	var id: Int = Int()
 	var gameId: String = ""
-	var cover: String = "photo"
-	var rank: String = "#1"
-	var title: String = "Cyberpunk 2077"
-	var releaseDate: String = "11 November 2020"
+	var cover: String = ""
+	var rank: String = ""
+	var title: String = ""
+	var releaseDate: String = ""
 	var rating: Double = 0
 	var ratingsCount: Int = 0
 	var favorited: Bool = false

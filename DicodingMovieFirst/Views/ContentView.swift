@@ -30,8 +30,8 @@ struct ContentView: View {
 					.navigationBarTitle("Favorites", displayMode: .automatic)
 			}
 			.tabItem {
-			   Image(systemName: "list.dash")
-			   Text("Menu")
+			   Image(systemName: "star.fill")
+			   Text("Favorites")
 			}
 		}
     }
