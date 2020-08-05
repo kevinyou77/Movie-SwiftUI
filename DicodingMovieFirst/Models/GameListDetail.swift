@@ -39,6 +39,30 @@ struct GameDetail: Codable {
         case website, rating
         case platforms
     }
+    
+    func encode(to encoder: Encoder) throws {
+
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encodeIfPresent(gameDetailDescription, forKey: .gameDetailDescription)
+    }
+    
+    init() {}
+    
+    init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        let gameDescription = try container.decode(String.self, forKey: .gameDetailDescription)
+        self.gameDetailDescription = StringHelper.eraseAllHTMLTags(from: gameDescription)
+        
+        self.id = try container.decode(Int.self, forKey: .id)
+        self.slug = try container.decode(String.self, forKey: .slug)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.released = try container.decode(String.self, forKey: .released)
+        self.platforms = try container.decode([Platform].self, forKey: .platforms)
+        self.metacritic = try container.decode(Int.self, forKey: .metacritic)
+    }
 }
 
 struct PlatformInfo: Codable {

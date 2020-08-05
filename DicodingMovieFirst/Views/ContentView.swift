@@ -15,9 +15,7 @@ struct ContentView: View {
 		TabView {
 			NavigationView {
 				
-				HomeGameListView()
-					.navigationBarTitle("Games", displayMode: .automatic)
-					.navigationBarItems(trailing: AboutButton())
+				GameListView()
 			}
 			.tabItem {
 			   Image(systemName: "list.dash")
@@ -38,6 +36,14 @@ struct ContentView: View {
 }
 
 extension ContentView {
+    
+    private func GameListView() -> some View {
+           
+       let homeGameListView = HomeGameListView()
+       return homeGameListView
+               .navigationBarTitle("Games", displayMode: .automatic)
+               .navigationBarItems(trailing: AboutButton())
+   }
 	
 	private func AboutButton() -> some View {
 		

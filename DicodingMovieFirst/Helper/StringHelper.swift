@@ -8,11 +8,15 @@
 
 import Foundation
 
-extension String {
+struct StringHelper {
+    
+    @available(*, unavailable) private init() {}
 
-    func eraseAllHTMLTags() -> String? {
+    static func eraseAllHTMLTags(from string: String) -> String? {
+
         do {
-            guard let data = self.data(using: .unicode) else {
+
+            guard let data = string.data(using: .unicode) else {
                 return nil
             }
 			

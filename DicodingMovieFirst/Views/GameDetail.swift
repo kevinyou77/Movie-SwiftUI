@@ -59,6 +59,9 @@ extension GameDetailView {
 		
 		let platformInfo = viewModel.getPlatformInfo(from: viewModel.gameDetail.platforms)
 		
+        let releaseDateString = viewModel.gameDetail.released
+        let localeString = DateHelper.convertStringToDateString(from: releaseDateString ?? "") ?? "TBA"
+        
 		return VStack(alignment: .leading) {
 			
 			Text(viewModel.gameDetail.name ?? "")
@@ -68,7 +71,7 @@ extension GameDetailView {
 			VStack(alignment: .leading) {
 				Text("\(platformInfo)")
 					.fontWeight(.bold)
-				Text("Released \(viewModel.gameDetail.released ?? "")")
+                Text("Released \(localeString)")
 					.font(.subheadline)
 				Text("Metacritic: \(viewModel.gameDetail.metacritic ?? 0)/100")
 					.font(.subheadline)

@@ -79,10 +79,10 @@ extension FavoriteGamesView {
 					.fontWeight(.semibold)
 					.font(.subheadline)
 
-				Text("Released \(game.releaseDate)")
+                Text("Released \(DateHelper.convertStringToDateString(from: game.releaseDate ?? "") ?? "TBA")")
 					.font(.caption)
 			}
-			.padding(7)
+			.padding(20)
 		}
 	}
 

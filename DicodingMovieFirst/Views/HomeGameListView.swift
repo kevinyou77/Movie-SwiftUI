@@ -14,9 +14,11 @@ struct HomeGameListView: View {
 	
 	@Environment(\.imageCache) private var cache: ImageCache
 	
-	@ObservedObject private var viewModel: HomeGameListViewModel = HomeGameListViewModel()
+	@ObservedObject private var viewModel: HomeGameListViewModel
 	
-	init() {
+    init(viewModel: HomeGameListViewModel = HomeGameListViewModel()) {
+        
+        self.viewModel = viewModel
 		
 		 UITableView.appearance().separatorColor = .clear
 	}
@@ -61,6 +63,7 @@ extension HomeGameListView {
 	private func GameDescriptionView(index: Int, game: GameListDescription) -> some View {
 		
 		let roundedGameRating = game.rating.roundValueToString(toPlaces: "%.2f")
+        let localizedDate = DateHelper.convertStringToDateString(from: game.releaseDate)
 		return VStack(alignment: .leading) {
 			
 			GameImageView(named: game.cover)
@@ -75,7 +78,7 @@ extension HomeGameListView {
 						.fontWeight(.semibold)
 						.font(.subheadline)
 					
-					Text("Released \(game.releaseDate)")
+					Text("Released \(localizedDate ?? "TBA")")
 						.font(.caption)
 				}
 				

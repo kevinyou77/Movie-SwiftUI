@@ -7,6 +7,7 @@
 //
 
 import Combine
+import Foundation
 
 class HomeGameListViewModel: ObservableObject {
 	
@@ -48,6 +49,14 @@ extension HomeGameListViewModel {
 		)
 	}
     
+    func notifyDidFavoriteGame() {
+        
+        NotificationCenter.default.post(name: .didFavoriteGame, object: nil)
+    }
+}
+
+extension HomeGameListViewModel {
+    
     func assignFavoritedGames(gameList: [GameListDescription]) -> [GameListDescription] {
         
         let favoriteGameIds = getFavoriteGameIdsFromCache()
@@ -70,10 +79,11 @@ extension HomeGameListViewModel {
 
             if game.favorited {
                 self.removeFromDatabase(index: index, by: game.id)
-                return
+            } else {
+                self.insertToDatabase(index: index, with: game)
             }
-            
-            self.insertToDatabase(index: index, with: game)
+
+            self.notifyDidFavoriteGame()
         }
     }
     
@@ -94,6 +104,9 @@ extension HomeGameListViewModel {
             self.games[index].favorited = false
         }
     }
+}
+
+extension HomeGameListViewModel {
     
     func removeFavoriteFromDatabase(by id: Int) -> Bool {
         storageModel.deleteFavoriteGame(by: id)

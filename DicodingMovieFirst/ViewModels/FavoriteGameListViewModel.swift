@@ -7,6 +7,7 @@
 //
 
 import Combine
+import Foundation
 
 class FavoriteGamesListViewModel: ObservableObject {
 	
@@ -19,14 +20,30 @@ class FavoriteGamesListViewModel: ObservableObject {
 		
 		self.favoriteGameStorageModel = favoriteGameStorageModel
 		
-		getGamesFromCache()
+		configureViewModel()
 	}
 }
 
 extension FavoriteGamesListViewModel {
+    
+    func configureViewModel() {
+        
+        getGamesFromCache()
+        addDidFavoriteGameObserver()
+    }
 	
-	func getGamesFromCache() {
+	@objc func getGamesFromCache() {
 		
 		self.games = favoriteGameStorageModel.getFavoriteGames()
 	}
+    
+    func addDidFavoriteGameObserver() {
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(getGamesFromCache),
+            name: .didFavoriteGame,
+            object: nil
+        )
+    }
 }
