@@ -20,13 +20,48 @@ class HomeGameListViewModel: ObservableObject {
 		
 		self.storageModel = storageModel
 		
-		getGames()
+        configureViewModel()
 	}
 }
 
 extension HomeGameListViewModel {
+    
+    func configureViewModel() {
+        
+        configureNotificationCenter()
+    }
+}
+
+extension HomeGameListViewModel {
+    
+    @objc func searchGames(_ title: String? = nil) {
+        
+        var queryParams: [String: String] = [
+            "page_size": "10"
+        ]
+        
+        if let title = title {
+            queryParams["search"] = title
+        }
+        
+        let request: AnyPublisher<GameListResponse, Error> = RawgAPI.request(
+            .games,
+            queryParams: queryParams
+        )
+        cancellable = request.mapError { (error) -> Error in
+            print(error)
+            return error
+        }
+        .sink(
+            receiveCompletion: { _ in },
+            receiveValue: {
+                
+                self.games = self.assignFavoritedGames(gameList: $0.gameLists)
+            }
+        )
+    }
 	
-	func getGames() {
+    @objc func getGames() {
 		
 		let queryParams: [String: String] = [
 			"page_size": "10"
@@ -49,10 +84,47 @@ extension HomeGameListViewModel {
 		)
 	}
     
+    func searchGames() {
+        
+        let request: AnyPublisher<GameListResponse, Error> = RawgAPI.request(
+            .games,
+            queryParams: [:]
+        )
+        cancellable = request.mapError { (error) -> Error in
+            print(error)
+            return error
+        }
+        .sink(
+            receiveCompletion: { _ in },
+            receiveValue: {
+                
+                self.games = self.assignFavoritedGames(gameList: $0.gameLists)
+            }
+        )
+    }
+}
+
+extension HomeGameListViewModel {
+    
+    func configureNotificationCenter() {
+        
+        addDidUnfavoriteGameObserver()
+    }
+    
     func notifyDidFavoriteGame() {
         
         NotificationCenter.default.post(name: .didFavoriteGame, object: nil)
     }
+    
+    func addDidUnfavoriteGameObserver() {
+              
+      NotificationCenter.default.addObserver(
+          self,
+          selector: #selector(self.getGames),
+          name: .didUnfavoriteGame,
+          object: nil
+      )
+   }
 }
 
 extension HomeGameListViewModel {

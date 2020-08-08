@@ -11,4 +11,5 @@ import Foundation
 extension Notification.Name {
     
     static let didFavoriteGame = Notification.Name("didFavoriteGame")
+    static let didUnfavoriteGame = Notification.Name("didUnfavoriteGame")
 }

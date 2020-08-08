@@ -24,9 +24,10 @@ enum RawgAPIPath {
 		switch self {
 		case .games:
 			return "/games"
+
 		case .gameDetail(let id):
 			return "/games/\(id)"
-		}
+        }
 	}
 }
 

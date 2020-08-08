@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct HomeGameListView: View {
 	
@@ -26,7 +27,7 @@ struct HomeGameListView: View {
     var body: some View {
 		
 		VStack {
-			SearchBar(text: $searchText)
+            SearchBar(text: $searchText)
 			GameList(viewModel.games)
 		}
     }
@@ -36,11 +37,9 @@ extension HomeGameListView {
 	
 	private func GameList(_ gameList: [GameListDescription]) -> some View {
 		
-		let filteredGameList = gameList.filter { game in
-			self.searchText.isEmpty ? true : game.title.lowercased().contains(self.searchText)
-		}
+        viewModel.searchGames(searchText)
 		
-		let filteredGameListWithIndex = filteredGameList.enumerated().map { $0 }
+        let filteredGameListWithIndex = viewModel.games.enumerated().map { $0 }
 		return List(filteredGameListWithIndex, id: \.element.id) { (index, game) in
 			self.GameDescription(index: index, game: game)
 		}
@@ -116,21 +115,8 @@ struct SearchBar: UIViewRepresentable {
 
     @Binding var text: String
 
-    class Coordinator: NSObject, UISearchBarDelegate {
-
-        @Binding var text: String
-
-        init(text: Binding<String>) {
-            _text = text
-        }
-
-        func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-            text = searchText
-        }
-    }
-
-    func makeCoordinator() -> SearchBar.Coordinator {
-        return Coordinator(text: $text)
+    func makeCoordinator() -> SearchBarCoordinator {
+        return SearchBarCoordinator(text: _text)
     }
 
     func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
@@ -146,5 +132,28 @@ struct SearchBar: UIViewRepresentable {
 
     func updateUIView(_ uiView: UISearchBar, context: UIViewRepresentableContext<SearchBar>) {
         uiView.text = text
+    }
+}
+
+class SearchBarCoordinator: NSObject, UISearchBarDelegate {
+
+    private var cancellable: AnyCancellable?
+    
+    @Binding var text: String
+    @Published var searchFieldText = ""
+
+    init(text: Binding<String>) {
+        _text = text
+    }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+           
+        searchFieldText = searchText
+        cancellable = $searchFieldText
+            .removeDuplicates()
+            .debounce(for: 0.7, scheduler: DispatchQueue.main)
+            .sink { debouncedValue in
+                self.text = debouncedValue
+            }
     }
 }

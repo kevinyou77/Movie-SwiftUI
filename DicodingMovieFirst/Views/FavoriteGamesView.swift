@@ -20,19 +20,25 @@ struct FavoriteGamesView: View {
 			GameList(viewModel.games)
 		}
     }
+    
+    init() {
+        
+        UINavigationBar.appearance().backgroundColor = .white
+    }
 }
 
 extension FavoriteGamesView {
 	
 	private func GameList(_ gameList: [GameListDescription]) -> some View {
 		
-		Group {
+        let gameListWithIndex = gameList.enumerated().map { $0 }
+		return Group {
 			if viewModel.games.isEmpty {
 				EmptyTextView()
 			}
 			
-			List(gameList) {
-				self.GameDescription(game: $0)
+			List(gameListWithIndex, id: \.element.id) { (index, game) in
+                self.GameDescription(index: index, game: game)
 			}
 			.padding(.horizontal, -20)
 		}
@@ -49,10 +55,10 @@ extension FavoriteGamesView {
 		}
 	}
 	
-	private func GameDescription(game: GameListDescription) -> some View {
+    private func GameDescription(index: Int, game: GameListDescription) -> some View {
 
 		Group {
-			GameDescriptionView(game: game)
+            GameDescriptionView(index: index, game: game)
 			NavigationLink(destination: GameDetailView(gameId: game.id, gameTitle: game.title)) {
 				
 				EmptyView()
@@ -62,28 +68,44 @@ extension FavoriteGamesView {
 		}
 	}
 	
-	private func GameDescriptionView(game: GameListDescription) -> some View {
+    private func GameDescriptionView(index: Int, game: GameListDescription) -> some View {
 		
 		let roundedGameRating = game.rating.roundValueToString(toPlaces: "%.2f")
-		return VStack(alignment: .leading) {
+        let localizedDate = DateHelper.convertStringToDateString(from: game.releaseDate)
+        return VStack(alignment: .leading) {
+            
+            GameImageView(named: game.cover)
+            
+            HStack(spacing: 5) {
+                VStack(alignment: .leading) {
+                    Text(game.title)
+                        .fontWeight(.bold)
+                        .font(.system(size: 22))
+                    
+                    Text("\(roundedGameRating) from \(game.ratingsCount) ratings")
+                        .fontWeight(.semibold)
+                        .font(.subheadline)
+                    
+                    Text("Released \(localizedDate ?? "TBA")")
+                        .font(.caption)
+                }
+                
+                Spacer()
 
-			GameImageView(named: game.cover)
-
-			VStack(alignment: .leading) {
-
-				Text(game.title)
-					.fontWeight(.bold)
-					.font(.system(size: 22))
-
-				Text("\(roundedGameRating) from \(game.ratingsCount) ratings")
-					.fontWeight(.semibold)
-					.font(.subheadline)
-
-                Text("Released \(DateHelper.convertStringToDateString(from: game.releaseDate ?? "") ?? "TBA")")
-					.font(.caption)
-			}
-			.padding(20)
-		}
+                Button(
+                    action: viewModel.onSaveToDatabase(index: index, with: game),
+                    label: {
+                        Image(systemName: "star.fill")
+                            .foregroundColor(game.favorited ? .yellow : .black)
+                        Text("Favorite")
+                            .fontWeight(.semibold)
+                            .font(.subheadline)
+                    }
+                )
+                .buttonStyle(PlainButtonStyle())
+            }
+            .padding(15)
+        }
 	}
 
 	private func GameImageView(named imageName: String) -> some View {

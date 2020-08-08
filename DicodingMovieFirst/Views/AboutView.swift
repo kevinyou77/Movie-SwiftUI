@@ -19,6 +19,8 @@ struct AboutView: View {
 				.frame(width: 220, height: 300, alignment: .center)
 			
 			Text("Kevin Yulias")
+            Text("Laki-laki")
+            Text("8 Feb 1998")
 		}
 	}
 }

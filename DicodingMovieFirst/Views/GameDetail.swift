@@ -20,8 +20,8 @@ struct GameDetailView: View {
 		self.gameId = gameId
 		self.gameTitle = gameTitle
 		self.viewModel = GameDetailViewModel(id: gameId)
-
-		UINavigationBar.appearance().barTintColor = .clear
+    
+        UINavigationBar.appearance().backgroundColor = .white
 		UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
 	}
 	
