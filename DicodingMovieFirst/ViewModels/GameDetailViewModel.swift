@@ -38,6 +38,7 @@ extension GameDetailViewModel {
 		.sink(
 			receiveCompletion: { _ in },
 			receiveValue: { res in
+				
 				self.gameDetail = res
 			}
 		)

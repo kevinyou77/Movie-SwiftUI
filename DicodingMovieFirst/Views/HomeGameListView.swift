@@ -27,17 +27,20 @@ struct HomeGameListView: View {
     var body: some View {
 		
 		VStack {
-            SearchBar(text: $searchText)
+			SearchBar(text: $searchText, onSearch: {
+				self.viewModel.searchGames(self.searchText)
+			})
 			GameList(viewModel.games)
 		}
+		.onAppear(perform: {
+			self.viewModel.searchGames(self.searchText)
+		})
     }
 }
 
 extension HomeGameListView {
 	
 	private func GameList(_ gameList: [GameListDescription]) -> some View {
-		
-        viewModel.searchGames(searchText)
 		
         let filteredGameListWithIndex = viewModel.games.enumerated().map { $0 }
 		return List(filteredGameListWithIndex, id: \.element.id) { (index, game) in
@@ -114,9 +117,11 @@ extension HomeGameListView {
 struct SearchBar: UIViewRepresentable {
 
     @Binding var text: String
+	
+	var onSearch: (() -> Void)
 
     func makeCoordinator() -> SearchBarCoordinator {
-        return SearchBarCoordinator(text: _text)
+		return SearchBarCoordinator(text: _text, onSearch: onSearch)
     }
 
     func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
@@ -141,9 +146,12 @@ class SearchBarCoordinator: NSObject, UISearchBarDelegate {
     
     @Binding var text: String
     @Published var searchFieldText = ""
+	
+	var onSearch: (() -> Void)
 
-    init(text: Binding<String>) {
+	init(text: Binding<String>, onSearch: @escaping (() -> Void)) {
         _text = text
+		self.onSearch = onSearch
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -154,6 +162,7 @@ class SearchBarCoordinator: NSObject, UISearchBarDelegate {
             .debounce(for: 0.7, scheduler: DispatchQueue.main)
             .sink { debouncedValue in
                 self.text = debouncedValue
+				self.onSearch()
             }
     }
 }
