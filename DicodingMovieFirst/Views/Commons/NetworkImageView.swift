@@ -33,6 +33,7 @@ struct NetworkImageView<Placeholder: View>: View {
     }
     
     private var image: some View {
+		
         Group {
             if loader.image != nil {
                 configuration(Image(uiImage: loader.image!))

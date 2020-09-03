@@ -11,6 +11,12 @@ import SwiftUI
 class CommonUI {
 	
 	static func EmptyState(text: String) -> some View {
-		Text(text)
+		HStack(alignment: .center) {
+			VStack(alignment: .center) {
+				
+				Text(text)
+					.frame(maxWidth: .infinity, alignment: .center)
+			}
+		}
 	}
 }

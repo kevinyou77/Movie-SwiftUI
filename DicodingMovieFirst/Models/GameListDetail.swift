@@ -22,7 +22,7 @@ struct GameDetailResponse: Codable {
 struct GameDetail: Codable {
     var id: Int?
     var slug, name, nameOriginal, gameDetailDescription: String?
-    var metacritic: Int?
+    var metacritic: Int? = 0
     var released: String?
     var backgroundImage: String?
     var website: String?
@@ -59,9 +59,9 @@ struct GameDetail: Codable {
         self.id = try container.decode(Int.self, forKey: .id)
         self.slug = try container.decode(String.self, forKey: .slug)
         self.name = try container.decode(String.self, forKey: .name)
-        self.released = try container.decode(String.self, forKey: .released)
-        self.platforms = try container.decode([Platform].self, forKey: .platforms)
-        self.metacritic = try container.decode(Int.self, forKey: .metacritic)
+        self.released = try container.decodeIfPresent(String.self, forKey: .released)
+        self.platforms = try container.decodeIfPresent([Platform].self, forKey: .platforms)
+        self.metacritic = try container.decodeIfPresent(Int.self, forKey: .metacritic)
     }
 }
 

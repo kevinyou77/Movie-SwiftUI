@@ -75,7 +75,7 @@ extension FavoriteGamesListViewModel {
    func removeFromDatabase(index: Int, by id: Int) {
            
         let deleteSuccess = self.removeFavoriteFromDatabase(by: id)
-       
+
         if deleteSuccess {
             self.games.remove(at: index)
         }

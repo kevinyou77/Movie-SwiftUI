@@ -34,7 +34,7 @@ extension HomeGameListViewModel {
 
 extension HomeGameListViewModel {
     
-    @objc func searchGames(_ title: String? = nil) {
+	@objc func searchGames(_ title: String? = nil, onComplete: (() -> Void)? = nil) {
         
         var queryParams: [String: String] = [
             "page_size": "10"
@@ -57,6 +57,7 @@ extension HomeGameListViewModel {
             receiveValue: {
                 
                 self.games = self.assignFavoritedGames(gameList: $0.gameLists)
+				onComplete?()
             }
         )
     }

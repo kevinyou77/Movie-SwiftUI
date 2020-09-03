@@ -20,9 +20,6 @@ struct GameDetailView: View {
 		self.gameId = gameId
 		self.gameTitle = gameTitle
 		self.viewModel = GameDetailViewModel(id: gameId)
-    
-        UINavigationBar.appearance().backgroundColor = .white
-		UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
 	}
 	
 	var body: some View {
@@ -49,10 +46,8 @@ extension GameDetailView {
 	private func GameDescription() -> some View {
 		
 		let description = viewModel.gameDetail.gameDetailDescription ?? ""
-		return Text(description)
-			.padding(
-				EdgeInsets(top: 20, leading: 20, bottom: 10, trailing: 20)
-			)
+		let inset = EdgeInsets(top: 20, leading: 20, bottom: 10, trailing: 20)
+		return Text(description).padding(inset)
 	}
 	
 	private func GameInformation() -> some View {
@@ -62,25 +57,36 @@ extension GameDetailView {
         let releaseDateString = viewModel.gameDetail.released
         let localeString = DateHelper.convertStringToDateString(from: releaseDateString ?? "") ?? "TBA"
         
-		return VStack(alignment: .leading) {
+		return Group {
 			
-			Text(viewModel.gameDetail.name ?? "")
-				.font(.largeTitle)
-				.fontWeight(.bold)
-			
-			VStack(alignment: .leading) {
-				Text("\(platformInfo)")
-					.fontWeight(.bold)
-                Text("Released \(localeString)")
-					.font(.subheadline)
-				Text("Metacritic: \(viewModel.gameDetail.metacritic ?? 0)/100")
-					.font(.subheadline)
+			if viewModel.gameDetail.name == nil {
+				
+				CommonUI
+					.EmptyState(text: "Loading...")
+					.padding(20)
+			} else {
+
+				VStack(alignment: .leading) {
+					
+					Text(viewModel.gameDetail.name ?? "")
+						.font(.largeTitle)
+						.fontWeight(.bold)
+					
+					VStack(alignment: .leading) {
+						Text("\(platformInfo)")
+							.fontWeight(.bold)
+						Text("Released \(localeString)")
+							.font(.subheadline)
+						Text("Metacritic: \(viewModel.gameDetail.metacritic ?? 0)/100")
+							.font(.subheadline)
+					}
+				}
+				.padding(
+					EdgeInsets(top: 30, leading: 20, bottom: 10, trailing: 20)
+				)
+				.frame(maxWidth: .infinity, alignment: .leading)
 			}
 		}
-		.padding(
-			EdgeInsets(top: 30, leading: 20, bottom: 10, trailing: 20)
-		)
-		.frame(maxWidth: .infinity, alignment: .leading)
 	}
 }
 

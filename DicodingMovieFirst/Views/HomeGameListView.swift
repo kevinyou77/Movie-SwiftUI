@@ -12,6 +12,7 @@ import Combine
 struct HomeGameListView: View {
 	
 	@State private var searchText = ""
+	@State private var isLoading: Bool = false
 	
 	@Environment(\.imageCache) private var cache: ImageCache
 	
@@ -28,7 +29,10 @@ struct HomeGameListView: View {
 		
 		VStack {
 			SearchBar(text: $searchText, onSearch: {
-				self.viewModel.searchGames(self.searchText)
+				self.isLoading = true
+				self.viewModel.searchGames(self.searchText) {
+					self.isLoading = false
+				}
 			})
 			GameList(viewModel.games)
 		}
@@ -43,12 +47,25 @@ extension HomeGameListView {
 	private func GameList(_ gameList: [GameListDescription]) -> some View {
 		
         let filteredGameListWithIndex = viewModel.games.enumerated().map { $0 }
-		return List(filteredGameListWithIndex, id: \.element.id) { (index, game) in
-			self.GameDescription(index: index, game: game)
+		
+		return Group {
+			
+			if isLoading {
+				Text("Searching...")
+			}
+			
+			if filteredGameListWithIndex.isEmpty {
+				CommonUI.EmptyState(text: "No games found")
+			}
+			
+			List(filteredGameListWithIndex, id: \.element.id) { (index, game) in
+				self.GameDescription(index: index, game: game)
+			}
+			.padding(.horizontal, -20)
+			.environment(\.defaultMinListRowHeight, 320)
 		}
-		.padding(.horizontal, -20)
 	}
-	
+
 	private func GameDescription(index: Int, game: GameListDescription) -> some View {
 		
 		Group {
@@ -64,19 +81,21 @@ extension HomeGameListView {
 	
 	private func GameDescriptionView(index: Int, game: GameListDescription) -> some View {
 		
-		let roundedGameRating = game.rating.roundValueToString(toPlaces: "%.2f")
-        let localizedDate = DateHelper.convertStringToDateString(from: game.releaseDate)
+		let roundedGameRating = game.rating?.roundValueToString(toPlaces: "%.2f") ?? "N/A"
+		let localizedDate = DateHelper.convertStringToDateString(from: game.releaseDate ?? "TBA")
 		return VStack(alignment: .leading) {
 			
 			GameImageView(named: game.cover)
 			
 			HStack(spacing: 5) {
+				
 				VStack(alignment: .leading) {
+
 					Text(game.title)
 						.fontWeight(.bold)
 						.font(.system(size: 22))
 					
-					Text("\(roundedGameRating) from \(game.ratingsCount) ratings")
+					Text("\(roundedGameRating) from \(game.ratingsCount ?? 0) ratings")
 						.fontWeight(.semibold)
 						.font(.subheadline)
 					
@@ -110,7 +129,8 @@ extension HomeGameListView {
 			placeholder: Text("Loading"),
 			configuration: { $0.resizable() }
 		)
-		.aspectRatio(1.7, contentMode: .fit)
+		.aspectRatio(1.7, contentMode: .fill)
+		.edgesIgnoringSafeArea(.all)
 	}
 }
 
