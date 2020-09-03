@@ -126,7 +126,8 @@ extension HomeGameListView {
 		NetworkImageView(
 			url: URL(string: imageName)!,
 			cache: self.cache,
-			placeholder: Text("Loading"),
+			placeholder: Text("Loading")
+						  .frame(maxWidth: .infinity, alignment: .center),
 			configuration: { $0.resizable() }
 		)
 		.aspectRatio(1.7, contentMode: .fill)
