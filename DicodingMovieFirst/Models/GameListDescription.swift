@@ -39,4 +39,17 @@ struct GameListDescription: Codable, Identifiable {
 		case id
 		case ratingsCount = "ratings_count"
 	}
+    
+    init() {}
+    
+    init(from decoder: Decoder) throws {
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.id = try container.decode(Int.self, forKey: .id)
+		self.cover = try (container.decodeIfPresent(String.self, forKey: .cover) ?? "")
+        self.title = try container.decode(String.self, forKey: .title)
+        self.rating = try container.decodeIfPresent(Double.self, forKey: .rating)
+        self.ratingsCount = try container.decodeIfPresent(Int.self, forKey: .ratingsCount)
+    }
 }

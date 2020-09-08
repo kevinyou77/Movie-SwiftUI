@@ -79,13 +79,26 @@ extension HomeGameListView {
 		}
 	}
 	
+	private func GameImage(url: URL?) -> some View {
+		
+		if let url = url {
+			return AnyView(GameImageView(url: url))
+		}
+		
+		return AnyView(Text("No Image").frame(maxWidth: .infinity, alignment: .center))
+
+	}
+	
 	private func GameDescriptionView(index: Int, game: GameListDescription) -> some View {
 		
 		let roundedGameRating = game.rating?.roundValueToString(toPlaces: "%.2f") ?? "N/A"
 		let localizedDate = DateHelper.convertStringToDateString(from: game.releaseDate ?? "TBA")
+		
+		let url = URL(string: game.cover)
+		
 		return VStack(alignment: .leading) {
 			
-			GameImageView(named: game.cover)
+			GameImage(url: url)
 			
 			HStack(spacing: 5) {
 				
@@ -121,10 +134,10 @@ extension HomeGameListView {
 		}
 	}
 	
-	private func GameImageView(named imageName: String) -> some View {
+	private func GameImageView(url: URL) -> some View {
 		
 		NetworkImageView(
-			url: URL(string: imageName)!,
+			url: url,
 			cache: self.cache,
 			placeholder: Text("Loading")
 						  .frame(maxWidth: .infinity, alignment: .center),

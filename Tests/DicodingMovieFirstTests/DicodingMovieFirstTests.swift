@@ -42,6 +42,6 @@ final class DicodingMovieFirstTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testExample", testExample)
     ]
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		142DF4D124DA7722005ECA35 /* Date+ToString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142DF4D024DA7722005ECA35 /* Date+ToString.swift */; };
+		14300BAC2502D055003968EC /* View+If.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14300BAB2502D055003968EC /* View+If.swift */; };
 		14BC747C24F55FCA00909AA0 /* CommonUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BC747B24F55FCA00909AA0 /* CommonUI.swift */; };
 		14E4A75824DA6B220093BBB6 /* NotificationCenterConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E4A75724DA6B220093BBB6 /* NotificationCenterConstants.swift */; };
 		91043A7524D13261002EE1A5 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 91043A7424D13260002EE1A5 /* SQLite */; };
@@ -41,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		142DF4D024DA7722005ECA35 /* Date+ToString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+ToString.swift"; sourceTree = "<group>"; };
+		14300BAB2502D055003968EC /* View+If.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+If.swift"; sourceTree = "<group>"; };
 		14BC747B24F55FCA00909AA0 /* CommonUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUI.swift; sourceTree = "<group>"; };
 		14E4A75724DA6B220093BBB6 /* NotificationCenterConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterConstants.swift; sourceTree = "<group>"; };
 		91043A7724D1344D002EE1A5 /* FavoriteGameStorageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGameStorageModel.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				91B64C8424C3502F005F6C64 /* EnvironmentValues+ImageCache.swift */,
 				91D50D3C24C6FF230098F06C /* Double+RoundToPlaces.swift */,
 				142DF4D024DA7722005ECA35 /* Date+ToString.swift */,
+				14300BAB2502D055003968EC /* View+If.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				14BC747C24F55FCA00909AA0 /* CommonUI.swift in Sources */,
 				91EF1C8124C1F9D100868535 /* HomeGameListViewModel.swift in Sources */,
 				91EF1C6224C1ECF200868535 /* SceneDelegate.swift in Sources */,
+				14300BAC2502D055003968EC /* View+If.swift in Sources */,
 				9152C8C524C344F7008AFE1B /* ImageCache.swift in Sources */,
 				91EF1C8524C1FB2400868535 /* APIClient.swift in Sources */,
 			);
