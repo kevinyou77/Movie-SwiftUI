@@ -55,7 +55,7 @@ extension FavoriteGamesView {
 
 		Group {
             GameDescriptionView(index: index, game: game)
-			NavigationLink(destination: GameDetailView(gameId: game.id, gameTitle: game.title)) {
+			NavigationLink(destination: GameDetailView(gameId: game.id, gameTitle: game.title, cover: game.cover, gameListDescription: game)) {
 				
 				EmptyView()
 			}
@@ -103,7 +103,7 @@ extension FavoriteGamesView {
                 )
                 .buttonStyle(PlainButtonStyle())
             }
-            .padding(15)
+            .padding(EdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20))
         }
 	}
 

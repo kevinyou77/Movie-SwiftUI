@@ -70,7 +70,7 @@ extension HomeGameListView {
 		
 		Group {
 			GameDescriptionView(index: index, game: game)
-			NavigationLink(destination: GameDetailView(gameId: game.id, gameTitle: game.title)) {
+			NavigationLink(destination: GameDetailView(gameId: game.id, gameTitle: game.title, cover: game.cover, gameListDescription: game)) {
 				
 				EmptyView()
 			}
@@ -86,7 +86,6 @@ extension HomeGameListView {
 		}
 		
 		return AnyView(Text("No Image").frame(maxWidth: .infinity, alignment: .center))
-
 	}
 	
 	private func GameDescriptionView(index: Int, game: GameListDescription) -> some View {
