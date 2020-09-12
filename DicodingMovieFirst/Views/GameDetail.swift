@@ -53,9 +53,6 @@ struct GameDetailView: View {
 		.onAppear(perform: {
 			self.viewModel.getGameDetail(by: self.gameId)
 		})
-		.onDisappear(perform: {
-			self.viewModel.notifyDidUnfavoriteGame()
-		})
 	}
 }
 
@@ -64,7 +61,7 @@ extension GameDetailView {
 	private func GameDescription() -> some View {
 		
 		let description = viewModel.gameDetail.gameDetailDescription ?? ""
-		let inset = EdgeInsets(top: -20, leading: 20, bottom: 10, trailing: 20)
+		let inset = EdgeInsets(top: 0, leading: 20, bottom: 10, trailing: 20)
 		return Text(description).padding(inset)
 	}
 	
@@ -101,10 +98,12 @@ extension GameDetailView {
 			Text(viewModel.gameDetail.name ?? "")
 				.font(.largeTitle)
 				.fontWeight(.bold)
+				.fixedSize(horizontal: false, vertical: true)
 			
 			VStack(alignment: .leading) {
 				Text("\(platformInfo)")
 					.fontWeight(.bold)
+					.fixedSize(horizontal: false, vertical: true)
 				Text("Released \(releaseDate)")
 					.font(.subheadline)
 				Text("Metacritic: \(viewModel.gameDetail.metacritic ?? 0)/100")

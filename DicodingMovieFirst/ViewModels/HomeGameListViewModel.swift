@@ -16,9 +16,15 @@ class HomeGameListViewModel: ObservableObject {
 	
 	private let storageModel: FavoriteGameStorageModel
 	
-	init(storageModel: FavoriteGameStorageModel = FavoriteGameStorageModel.shared) {
+	private var currentGames: [GameListDescription]
+	
+	init(
+		storageModel: FavoriteGameStorageModel = FavoriteGameStorageModel.shared,
+		currentGames: [GameListDescription] = []
+	) {
 		
 		self.storageModel = storageModel
+		self.currentGames = currentGames
 		
         configureViewModel()
 	}
@@ -99,10 +105,15 @@ extension HomeGameListViewModel {
             receiveCompletion: { _ in },
             receiveValue: {
                 
+				self.currentGames = $0.gameLists
                 self.games = self.assignFavoritedGames(gameList: $0.gameLists)
             }
         )
     }
+	
+	@objc private func updateFavoriteGames() {
+		self.games = self.assignFavoritedGames(gameList: self.currentGames)
+	}
 }
 
 extension HomeGameListViewModel {
@@ -121,7 +132,7 @@ extension HomeGameListViewModel {
               
       NotificationCenter.default.addObserver(
           self,
-          selector: #selector(self.getGames),
+          selector: #selector(self.updateFavoriteGames),
           name: .didUnfavoriteGame,
           object: nil
       )

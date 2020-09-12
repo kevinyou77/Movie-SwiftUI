@@ -55,7 +55,14 @@ extension FavoriteGamesView {
 
 		Group {
             GameDescriptionView(index: index, game: game)
-			NavigationLink(destination: GameDetailView(gameId: game.id, gameTitle: game.title, cover: game.cover, gameListDescription: game)) {
+			NavigationLink(
+				destination: GameDetailView(
+					gameId: game.id,
+					gameTitle: game.title,
+					cover: game.cover,
+					gameListDescription: game
+				)
+			) {
 				
 				EmptyView()
 			}
